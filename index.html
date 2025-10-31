@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lives Saved - Charitable Foundation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .page {
+            display: none;
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s 0.2s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 1s 0.4s both;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #555;
+            margin-top: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .project-description {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .donation-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .donation-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .donation-card:hover {
+            transform: scale(1.05);
+            border-color: #667eea;
+        }
+
+        .donation-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            padding: 2rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <span class="logo-icon">❤️</span>
+                <span>LIVES SAVED</span>
+            </div>
+            <ul>
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('about')">About Us</a></li>
+                <li><a href="#" onclick="showPage('projects')">Projects</a></li>
+                <li><a href="#" onclick="showPage('donate')">Donate</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <h1>Saving Lives, Changing Futures</h1>
+            <p>Together we can make a difference in the world</p>
+            <a href="#" onclick="showPage('donate')" class="btn">Donate Now</a>
+        </div>
+
+        <div class="container">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">10,000+</div>
+                    <div class="stat-label">Lives Saved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Countries Reached</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$5M+</div>
+                    <div class="stat-label">Funds Raised</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Active Projects</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Our Mission</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p style="font-size: 1.2rem; text-align: center; color: #555;">
+                        Lives Saved is dedicated to providing emergency medical care, humanitarian aid, 
+                        and long-term support to communities in crisis. Through our global network of 
+                        volunteers and partners, we work tirelessly to ensure that no life is lost due 
+                        to lack of resources or access to care.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="about" class="page">
+        <div class="container">
+            <h2 class="section-title">About Lives Saved</h2>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Our Story</h3>
+                    <p>
+                        Founded in 2015, Lives Saved began as a grassroots movement to provide emergency 
+                        medical supplies to disaster-stricken areas. What started with a small team of 
+                        dedicated volunteers has grown into a global organization operating in over 50 countries.
+                    </p>
+                    <p>
+                        Our work is guided by the simple principle that every life has value and deserves 
+                        protection. We believe that access to healthcare, clean water, food, and shelter 
+                        are fundamental human rights.
+                    </p>
+                    <p>
+                        Today, we continue to expand our reach, developing innovative solutions to address 
+                        humanitarian crises and working alongside local communities to build sustainable 
+                        systems that save lives long after the emergency has passed.
+                    </p>
+                </div>
+            </div>
+
+            <h3 class="section-title" style="margin-top: 4rem;">Our Core Values</h3>
+            <div class="values">
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h4>Compassion</h4>
+                    <p>We approach every situation with empathy and understanding</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🎯</div>
+                    <h4>Impact</h4>
+                    <p>We focus on solutions that create lasting change</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🌍</div>
+                    <h4>Global Reach</h4>
+                    <p>We work across borders to help those in need</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">💡</div>
+                    <h4>Innovation</h4>
+                    <p>We develop creative solutions to complex challenges</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROJECTS PAGE -->
+    <div id="projects" class="page">
+        <div class="container">
+            <h2 class="section-title">Our Projects</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">🏥</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Emergency Medical Response</h3>
+                        <p class="project-description">
+                            Providing rapid medical assistance in disaster zones with mobile clinics 
+                            and emergency medical teams.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">💧</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Clean Water Initiative</h3>
+                        <p class="project-description">
+                            Building wells and water purification systems in communities without 
+                            access to safe drinking water.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">🍲</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Food Security Program</h3>
+                        <p class="project-description">
+                            Distributing food aid and establishing sustainable agriculture programs 
+                            in food-insecure regions.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">🏠</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Shelter & Housing</h3>
+                        <p class="project-description">
+                            Providing emergency shelter and rebuilding homes for families displaced 
+                            by conflict and natural disasters.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">📚</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Education Support</h3>
+                        <p class="project-description">
+                            Establishing schools and providing educational resources in underserved 
+                            communities.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">👶</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Child Protection</h3>
+                        <p class="project-description">
+                            Protecting vulnerable children and providing healthcare, nutrition, 
+                            and safe spaces for development.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DONATE PAGE -->
+    <div id="donate" class="page">
+        <div class="container">
+            <h2 class="section-title">Make a Difference Today</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: #555;">
+                Your donation directly saves lives. Choose an amount or make a custom donation.
+            </p>
+
+            <div class="donation-options">
+                <div class="donation-card">
+                    <div class="donation-amount">$25</div>
+                    <p>Provides clean water for a family for one month</p>
+                    <a href="#" class="btn" style="margin-top: 1rem;">Donate $25</a>
+                </div>
+
+                <div class="donation-card">
+                    <div class="donation-amount">$50</div>
+                    <p>Supplies emergency medical kit for 10 people</p>
+                    <a href="#" class="btn" style="margin-top: 1rem;">Donate $50</a>
+                </div>
+
+                <div class="donation-card">
+                    <div class="donation-amount">$100</div>
+                    <p>Provides shelter materials for a displaced family</p>
+                    <a href="#" class="btn" style="margin-top: 1rem;">Donate $100</a>
+                </div>
+
+                <div class="donation-card">
+                    <div class="donation-amount">$250</div>
+                    <p>Funds a mobile medical clinic for a day</p>
+                    <a href="#" class="btn" style="margin-top: 1rem;">Donate $250</a>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <h3 style="margin-bottom: 1rem;">Other Ways to Help</h3>
+                <p style="color: #555; margin-bottom: 2rem;">
+                    Besides monetary donations, you can volunteer, organize fundraisers, or spread awareness about our cause.
+                </p>
+                <a href="#" onclick="showPage('contact')" class="btn">Get Involved</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="contact" class="page">
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: #555;">
+                Have questions or want to get involved? We'd love to hear from you.
+            </p>
+
+            <div class="contact-form">
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+
+            <div style="margin-top: 4rem; text-align: center;">
+                <h3 style="margin-bottom: 1rem;">Contact Information</h3>
+                <p style="color: #555;">Email: info@livessaved.org</p>
+                <p style="color: #555;">Phone: +1 (555) 123-4567</p>
+                <p style="color: #555;">Address: 123 Humanitarian Way, Global City, GC 12345</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Charitable Foundation "LIVES SAVED". All rights reserved.</p>
+        <p>knowledgequests.org | EIN: 45579368</p>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            e.target.reset();
+        }
+    </script>
+</body>
+</html>
